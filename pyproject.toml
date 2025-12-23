@@ -1,0 +1,34 @@
+[build-system]
+requires = [
+  "setuptools>=61.0",
+  "wheel"
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "central-prompt"
+version = "0.1.0"
+description = "Unified prompt provider router for MLflow and Langfuse"
+readme = ""
+requires-python = ">=3.8"
+authors = [
+  { name = "Kaustubh" }
+]
+dependencies = []
+
+[project.optional-dependencies]
+mlflow = [
+  "mlflow"
+]
+langfuse = [
+  "langfuse",
+  "python-dotenv"
+]
+all = [
+  "mlflow",
+  "langfuse",
+  "python-dotenv"
+]
+
+[tool.setuptools]
+py-modules = ["central_prompt"]
