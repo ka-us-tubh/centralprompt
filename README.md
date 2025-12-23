@@ -58,7 +58,7 @@ python -m pip install --index-url https://<your-private-index>/simple central-pr
 from central_prompt import CentralPrompt
 
 # MLflow: environment-based tracking
-# Ensure MLFLOW_TRACKING_URI (and optionally MLFLOW_EXPERIMENT_NAME) are set in .env/ENV.
+# Prefer CENTRALPROMPT_MLFLOW_TRACKING_URI (fallback to MLFLOW_TRACKING_URI). Optionally CENTRALPROMPT_MLFLOW_EXPERIMENT_NAME or MLFLOW_EXPERIMENT_NAME.
 cp_ml = CentralPrompt("mlflow", experiment="traces-quickstart")
 cp_ml.set_prompt(
     name="sentiment-text-prompt",
@@ -115,11 +115,14 @@ print(handle_lf.compile(domain="billing", issue_description="Can't see my invoic
 - **Chat**: a list of dicts with `role` and `content` keys.
 
 ## Environment configuration
-- MLflow: `.env` or environment variables
-  - `MLFLOW_TRACKING_URI`
-  - `MLFLOW_EXPERIMENT_NAME` (optional if passed in code)
-- Langfuse: `.env` or environment variables
-  - `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`
+- MLflow: `.env` or environment variables (precedence: CENTRALPROMPT_* overrides standard vars)
+  - `CENTRALPROMPT_MLFLOW_TRACKING_URI` or `MLFLOW_TRACKING_URI`
+  - `CENTRALPROMPT_MLFLOW_EXPERIMENT_NAME` or `MLFLOW_EXPERIMENT_NAME` (optional if passed in code)
+- Langfuse: `.env` or environment variables (precedence: CENTRALPROMPT_* overrides standard vars)
+  - `CENTRALPROMPT_LANGFUSE_PUBLIC_KEY` or `LANGFUSE_PUBLIC_KEY`
+  - `CENTRALPROMPT_LANGFUSE_SECRET_KEY` or `LANGFUSE_SECRET_KEY`
+  - `CENTRALPROMPT_LANGFUSE_BASE_URL` (or `CENTRALPROMPT_LANGFUSE_HOST`) or `LANGFUSE_BASE_URL` (or `LANGFUSE_HOST`)
+  - Note: The library maps CENTRALPROMPT_LANGFUSE_* to the standard LANGFUSE_* before initializing the client.
 
 ## Exceptions
 - `PromptProviderError` — invalid/unsupported provider or bad arguments
@@ -136,7 +139,7 @@ python -m unittest -v test.py
 ```
 
 ## Versioning
-- Current version: `0.1.0`
+- Current version: `0.1.1`
 - Update `project.version` in `pyproject.toml` when cutting a new release.
 
 ## License
